@@ -3,3 +3,5 @@
 # Useful .gitignore templates: https://github.com/github/gitignore
 
 .vercel
+.env
+node_modules

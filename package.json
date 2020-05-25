@@ -1,0 +1,25 @@
+{
+  "name": "csscontest.com",
+  "version": "1.0.0",
+  "description": "The website for csscontest.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitsofart/csscontest.com.git"
+  },
+  "keywords": [
+    "website"
+  ],
+  "author": "Vinícius Andrade <vini.andrade.dev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bitsofart/csscontest.com/issues"
+  },
+  "homepage": "https://github.com/bitsofart/csscontest.com#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}

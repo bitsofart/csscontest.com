@@ -1,7 +1,7 @@
 body {
   color: #333;
   font-size: 16px;
-  font-family: 'Helvetica Neue', sans-serif;
+  font-family: "Helvetica Neue", sans-serif;
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -14,17 +14,21 @@ body {
   margin: 2rem;
 }
 .logo {
-  width: 360px;
+  width: 200px;
 }
 .paragraph {
   line-height: 1.5;
 }
+.footer {
+  font-size: 12px;
+}
 .link {
-  color: #DF2800;
+  color: #df2800;
 }
 .link:hover {
-  color: #B80F0A;
+  color: #b80f0a;
 }
 .link:visited {
-  color: #B80F0A;
+  color: #b80f0a;
 }
+

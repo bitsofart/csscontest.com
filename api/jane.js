@@ -1,7 +1,6 @@
 require("dotenv").config();
 const crypto = require("crypto");
 const bot = require("janethebot");
-// const jane = require("jane-the-bot");
 const github_secret = process.env.GITHUB_SECRET;
 
 function validateGithubSignature(body, githubSignature) {
@@ -19,7 +18,13 @@ function validateGithubSignature(body, githubSignature) {
 
 export default async (request, response) => {
   const { headers, body } = request;
-  if (validateGithubSignature(body, headers["x-hub-signature"])) {
+  if (!validateGithubSignature(body, headers["x-hub-signature"])) {
+    response.status(401);
+    return response.json({
+      message: "Unauthorized",
+    });
+  }
+  try {
     if (body.issue) {
       await bot.janeHandles.issues.verifyIssue(
         body.issue.number,
@@ -37,11 +42,10 @@ export default async (request, response) => {
       );
       return response.json({ message: "Jane will handle the pull request." });
     }
-    return response.json({ message: "Jane is not interested." });
-  }
 
-  response.status(401);
-  return response.json({
-    message: "Unauthorized",
-  });
+    return response.json({ message: "Jane is not interested." });
+  } catch ({ message }) {
+    response.status(500);
+    return response.json({ message });
+  }
 };

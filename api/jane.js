@@ -26,7 +26,7 @@ export default async (request, response) => {
   }
   try {
     if (body.issue) {
-      await bot.janeHandles.issues.verifyIssue(
+      await bot.janeHandles.issues.verify(
         body.issue.number,
         body.action,
         body

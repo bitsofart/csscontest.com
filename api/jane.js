@@ -18,6 +18,9 @@ function validateGithubSignature(body, githubSignature) {
 }
 
 function checkAuth(authorizationHeader) {
+  if (!authorizationHeader) {
+    return false;
+  }
   const token = authorizationHeader.split(/\s+/).pop();
   const [username, password] = new Buffer.from(token, "base64")
     .toString()

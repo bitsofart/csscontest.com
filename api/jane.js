@@ -2,6 +2,7 @@ require("dotenv").config();
 const crypto = require("crypto");
 const bot = require("janethebot");
 const github_secret = process.env.GITHUB_SECRET;
+const jane_secret = process.env.JANE_SECRET;
 
 function validateGithubSignature(body, githubSignature) {
   if (!githubSignature) {
@@ -16,21 +17,52 @@ function validateGithubSignature(body, githubSignature) {
   return crypto.timingSafeEqual(ourSignBuffer, theirSignBuffer);
 }
 
+function checkAuth(authorizationHeader) {
+  const token = authorizationHeader.split(/\s+/).pop();
+  const [username, password] = new Buffer.from(token, "base64")
+    .toString()
+    .split(/:/);
+  const { janeUser, janePassword } = JSON.parse(jane_secret);
+  return username === janeUser && password === janePassword;
+}
+
 export default async (request, response) => {
-  const { headers, body } = request;
-  if (!validateGithubSignature(body, headers["x-hub-signature"])) {
-    response.status(401);
-    return response.json({
-      message: "Unauthorized",
-    });
-  }
+  const {
+    headers,
+    body,
+    query: { q },
+  } = request;
   try {
+    if (q && q === "select-issue") {
+      if (checkAuth(headers["authorization"])) {
+        await bot.janeHandles.issues.selectWinner();
+        return response.json({ message: "Jane selected the winning issue." });
+      }
+
+      response.status(401);
+      return response.json({
+        message: "Unauthorized",
+      });
+    }
+    if (q && q === "select-pr") {
+      if (checkAuth(headers["authorization"])) {
+        await bot.janeHandles.pullRequests.selectWinner();
+        return response.json({ message: "Jane selected the winning PR." });
+      }
+
+      response.status(401);
+      return response.json({
+        message: "Unauthorized",
+      });
+    }
+    if (!validateGithubSignature(body, headers["x-hub-signature"])) {
+      response.status(401);
+      return response.json({
+        message: "Unauthorized",
+      });
+    }
     if (body.issue) {
-      await bot.janeHandles.issues.verify(
-        body.issue.number,
-        body.action,
-        body
-      );
+      await bot.janeHandles.issues.verify(body.issue.number, body.action, body);
       return response.json({ message: "Jane will handle the issue." });
     }
 

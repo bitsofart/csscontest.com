@@ -21,6 +21,6 @@
   "homepage": "https://github.com/bitsofart/csscontest.com#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "janethebot": "git://github.com/bitsofart/jane.git#master"
+    "janethebot": "^0.0.2"
   }
 }

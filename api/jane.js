@@ -3,6 +3,11 @@ const crypto = require("crypto");
 const bot = require("janethebot");
 const github_secret = process.env.GITHUB_SECRET;
 const jane_secret = process.env.JANE_SECRET;
+const sentry_dsn = process.env.NEXT_PUBLIC_SENTRY_DSN;
+const Sentry = require("@sentry/node");
+
+Sentry.init({ dsn: sentry_dsn });
+
 
 function validateGithubSignature(body, githubSignature) {
   if (!githubSignature) {

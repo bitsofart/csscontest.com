@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/bitsofart/csscontest.com#readme",
   "dependencies": {
+    "@sentry/node": "^5.22.3",
     "dotenv": "^8.2.0",
     "janethebot": "0.0.3"
   }

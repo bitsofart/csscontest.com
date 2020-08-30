@@ -84,8 +84,10 @@ export default async (request, response) => {
     }
 
     return response.json({ message: "Jane is not interested." });
-  } catch ({ message }) {
+  } catch (error) {
+    Sentry.captureException(error);
     response.status(500);
+    const { message } = error;
     return response.json({ message });
   }
 };
